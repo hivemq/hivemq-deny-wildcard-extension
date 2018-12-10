@@ -1,0 +1,28 @@
+:hivemq-support: http://www.hivemq.com/support/
+
+== HiveMQ Deny Wildcard Subscription Extension
+*Type*: Security
+
+*Version*: 4.0.0
+
+*License*: Apache License 2.0
+
+=== Purpose
+
+This extension denies any subscription to the root wildcard topic. In general, root wildcard subscribers tend to be a bottleneck in many scenarios.
+
+=== Installation
+. Unzip the downloaded zip file
+. Copy the folder `hivemq-deny-wildcard-extension` to your `[HIVEMQ_HOME]/extensions` folder
+. Done
+
+=== Configuration
+
+No configuration needed, works out of the box.
+
+=== First Steps
+After the extension is installed start HiveMQ. Now no client is allowed to subscribe to `#`.
+
+==== Need help?
+
+If you encounter any problems, we are happy to help. The best place to get in contact is our {hivemq-support}[support^].

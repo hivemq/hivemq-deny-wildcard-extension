@@ -1,0 +1,9 @@
+/target/
+/.idea/libraries/
+/.idea/cssxfire.xml
+/.idea/workspace.xml
+.DS_Store
+/.idea/
+/HiveMQDenyWildcardExtension.iml
+/deny-wildcard-extension.iml
+dependency-reduced-pom.xml
