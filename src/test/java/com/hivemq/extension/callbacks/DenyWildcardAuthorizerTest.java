@@ -55,8 +55,64 @@ public class DenyWildcardAuthorizerTest {
     }
 
     @Test
-    public void test_denied() {
+    public void test_denied_hashtag() {
         when(input.getSubscription().getTopicFilter()).thenReturn("#");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_plus_slash() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("+/");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_hashtag_slash() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("#/");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_hashtag_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("#/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_plus_hashtag() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("+/#");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_slash_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_slash_hashtag() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("/#");
         DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
@@ -71,10 +127,27 @@ public class DenyWildcardAuthorizerTest {
     }
 
     @Test
-    public void test_success_non_root_wildcard() {
+    public void test_success_non_root_hashtag() {
         when(input.getSubscription().getTopicFilter()).thenReturn("topic/#");
         DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
+
+    @Test
+    public void test_success_non_root_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("topic/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).authorizeSuccessfully();
+    }
+
+    @Test
+    public void test_success_non_trailing_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("+/topic");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).authorizeSuccessfully();
+    }
+
 }

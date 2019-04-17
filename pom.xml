@@ -20,7 +20,7 @@
 
     <groupId>com.hivemq.extension</groupId>
     <artifactId>hivemq-deny-wildcard-extension</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
     <description>HiveMQ Extension to deny top level wildcard subscription</description>
     <inceptionYear>2018</inceptionYear>
 
@@ -54,6 +54,11 @@
             <groupId>com.hivemq</groupId>
             <artifactId>hivemq-extension-sdk</artifactId>
             <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

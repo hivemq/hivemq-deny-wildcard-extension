@@ -21,8 +21,11 @@ import com.hivemq.extension.sdk.api.auth.SubscriptionAuthorizer;
 import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerInput;
 import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerOutput;
 import com.hivemq.extension.sdk.api.packets.subscribe.SubackReasonCode;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -43,14 +46,14 @@ public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
     private DenyWildcardAuthorizer() {
     }
 
-    public static final String WILDCARD = "#";
+    public static final String WILDCARD_CHARS = "#/+";
     private static Logger logger = LoggerFactory.getLogger(DenyWildcardAuthorizer.class);
 
     @Override
     public void authorizeSubscribe(@NotNull final SubscriptionAuthorizerInput subscriptionAuthorizerInput, @NotNull final SubscriptionAuthorizerOutput subscriptionAuthorizerOutput) {
         final String topicFilter = subscriptionAuthorizerInput.getSubscription().getTopicFilter();
-        if (topicFilter.equals(WILDCARD)) {
-            logger.debug("Client {} tried to subscribe to an invalid subscription '#'", subscriptionAuthorizerInput.getClientInformation().getClientId());
+        if (StringUtils.containsOnly(topicFilter, WILDCARD_CHARS)) {
+            logger.debug("Client {} tried to subscribe to an denied root wildcard topic filter '{}'", subscriptionAuthorizerInput.getClientInformation().getClientId(), topicFilter);
             subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
         } else {
             subscriptionAuthorizerOutput.authorizeSuccessfully();
