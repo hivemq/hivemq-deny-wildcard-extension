@@ -26,3 +26,12 @@ After the extension is installed start HiveMQ. Now no client is allowed to subsc
 ==== Need help?
 
 If you encounter any problems, we are happy to help. The best place to get in contact is our {hivemq-support}[support^].
+
+= Contributing
+
+If you want to contribute to HiveMQ Deny Wildcard Extension, see the link:CONTRIBUTING.md[contribution guidelines].
+
+= License
+
+HiveMQ Deny Wildcard Extension is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found link:LICENSE.txt[here].
+
