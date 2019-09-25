@@ -3,7 +3,7 @@
 == HiveMQ Deny Wildcard Subscription Extension
 *Extension Type*: Security
 
-*Version*: 4.0.0
+*Version*: 4.1.1
 
 *License*: Apache License 2.0
 
@@ -21,7 +21,8 @@ This extension denies any subscription to the root wildcard topic. In general, r
 No configuration needed, works out of the box.
 
 === First Steps
-After the extension is installed start HiveMQ. Now no client is allowed to subscribe to `#`.
+After the extension is installed start HiveMQ. Now no client is allowed to subscribe to `#`, `+/#`, `$share/group/#`
+or any other topic filter that would represent a root wildcard.
 
 ==== Need help?
 

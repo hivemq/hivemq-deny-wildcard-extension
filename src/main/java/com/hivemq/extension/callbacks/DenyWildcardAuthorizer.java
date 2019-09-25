@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -41,7 +42,8 @@ import java.util.regex.Pattern;
 public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
 
     public static final DenyWildcardAuthorizer INSTANCE = new DenyWildcardAuthorizer();
-    public static final String REASON_STRING = "Root wildcard subscription not supported.";
+    public static final String REASON_STRING = "Root wildcard subscriptions are not supported.";
+    private static final Pattern SHARED_SUBSCRIPTION_PATTERN = Pattern.compile("\\$share(/.*?/(.*))");
 
     private DenyWildcardAuthorizer() {
     }
@@ -52,6 +54,18 @@ public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
     @Override
     public void authorizeSubscribe(@NotNull final SubscriptionAuthorizerInput subscriptionAuthorizerInput, @NotNull final SubscriptionAuthorizerOutput subscriptionAuthorizerOutput) {
         final String topicFilter = subscriptionAuthorizerInput.getSubscription().getTopicFilter();
+
+        if (topicFilter.startsWith("$share/")) {
+            final Matcher matcher = SHARED_SUBSCRIPTION_PATTERN.matcher(topicFilter);
+            if (matcher.matches()) {
+                final String subscriptionTopic = matcher.group(2);
+                if (StringUtils.containsOnly(subscriptionTopic, WILDCARD_CHARS)) {
+                    logger.debug("Client {} tried to subscribe to an denied shared root wildcard topic filter '{}'", subscriptionAuthorizerInput.getClientInformation().getClientId(), topicFilter);
+                    subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
+                }
+            }
+        }
+
         if (StringUtils.containsOnly(topicFilter, WILDCARD_CHARS)) {
             logger.debug("Client {} tried to subscribe to an denied root wildcard topic filter '{}'", subscriptionAuthorizerInput.getClientInformation().getClientId(), topicFilter);
             subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
