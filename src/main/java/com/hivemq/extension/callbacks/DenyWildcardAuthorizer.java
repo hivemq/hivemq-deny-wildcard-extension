@@ -62,7 +62,24 @@ public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
                 if (StringUtils.containsOnly(subscriptionTopic, WILDCARD_CHARS)) {
                     logger.debug("Client {} tried to subscribe to an denied shared root wildcard topic filter '{}'", subscriptionAuthorizerInput.getClientInformation().getClientId(), topicFilter);
                     subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
+                    return;
                 }
+            }
+        }
+
+        if (topicFilter.startsWith("$expired/")) {
+            final String expiredTopic = topicFilter.substring("$expired/".length());
+            if (StringUtils.containsOnly(expiredTopic, WILDCARD_CHARS)) {
+                subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
+                return;
+            }
+        }
+
+        if (topicFilter.startsWith("$dropped/")) {
+            final String expiredTopic = topicFilter.substring("$dropped/".length());
+            if (StringUtils.containsOnly(expiredTopic, WILDCARD_CHARS)) {
+                subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
+                return;
             }
         }
 

@@ -175,4 +175,52 @@ public class DenyWildcardAuthorizerTest {
         verify(output).authorizeSuccessfully();
     }
 
+    @Test
+    public void test_denied_expired_hash() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("$expired/#");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_expired_plus_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("$expired/+/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_expired_success() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("$expired/topic/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).authorizeSuccessfully();
+    }
+
+    @Test
+    public void test_denied_dropped_hash() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("$dropped/#");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_dropped_plus_plus() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("$dropped/+/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
+    }
+
+    @Test
+    public void test_denied_dropped_success() {
+        when(input.getSubscription().getTopicFilter()).thenReturn("$dropped/topic/+");
+        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+
+        verify(output).authorizeSuccessfully();
+    }
+
 }
