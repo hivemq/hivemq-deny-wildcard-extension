@@ -21,8 +21,8 @@ import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerOutput;
 import com.hivemq.extension.sdk.api.client.parameter.ClientInformation;
 import com.hivemq.extension.sdk.api.packets.subscribe.SubackReasonCode;
 import com.hivemq.extension.sdk.api.packets.subscribe.Subscription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -46,7 +46,7 @@ public class DenyWildcardAuthorizerTest {
     @Mock
     Subscription subscription;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(input.getClientInformation()).thenReturn(clientInformation);
