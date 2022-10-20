@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.hivemq.extension;
+package com.hivemq.extensions.wildcard;
 
-import com.hivemq.extension.callbacks.DenyWildcardAuthorizer;
+import com.hivemq.extensions.wildcard.callbacks.DenyWildcardAuthorizer;
 import com.hivemq.extension.sdk.api.ExtensionMain;
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStartInput;
