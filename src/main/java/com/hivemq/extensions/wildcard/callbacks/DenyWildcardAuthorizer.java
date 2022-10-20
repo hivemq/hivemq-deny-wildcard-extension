@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hivemq.extension.callbacks;
+package com.hivemq.extensions.wildcard.callbacks;
 
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.auth.SubscriptionAuthorizer;
