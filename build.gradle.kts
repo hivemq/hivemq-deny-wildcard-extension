@@ -18,7 +18,6 @@ hivemqExtension {
 
 dependencies {
     implementation("org.apache.commons:commons-lang3:${property("commons-lang.version")}")
-    //slf4j
 }
 
 /* ******************** resources ******************** */
