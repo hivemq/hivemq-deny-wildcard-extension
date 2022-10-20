@@ -1,38 +1,33 @@
 :hivemq-support: http://www.hivemq.com/support/
+:hivemq-extension-downloads: https://www.hivemq.com/extension/deny-root-wildcard-subscriptions-extension/
 
-== HiveMQ Deny Wildcard Subscription Extension
-*Extension Type*: Security
+= HiveMQ Deny Wildcard Subscription Extension
 
-*Version*: 4.1.1
+image:https://img.shields.io/badge/Extension_Type-Security-orange?style=for-the-badge[Extension Type]
+image:https://img.shields.io/github/v/release/hivemq/hivemq-deny-wildcard-extension?style=for-the-badge[GitHub release (latest by date),link=https://github.com/hivemq/hivemq-deny-wildcard-extension/releases/latest]
+image:https://img.shields.io/github/license/hivemq/hivemq-deny-wildcard-extension?style=for-the-badge&color=brightgreen[GitHub,link=LICENSE]
+image:https://img.shields.io/github/workflow/status/hivemq/hivemq-deny-wildcard-extension/CI%20Check/master?style=for-the-badge[GitHub Workflow Status (branch),link=https://github.com/hivemq/hivemq-deny-wildcard-extension/actions/workflows/check.yml?query=branch%3Amaster]
 
-*License*: Apache License 2.0
-
-=== Purpose
-
+== Purpose
 This extension denies any subscription to the root wildcard topic. In general, root wildcard subscribers tend to be a bottleneck in many scenarios.
 
-=== Installation
-. Unzip the downloaded zip file
-. Copy the folder `hivemq-deny-wildcard-extension` to your `[HIVEMQ_HOME]/extensions` folder
-. Done
+== Installation
+* Download the extension from the {hivemq-extension-downloads}[HiveMQ Marketplace^].
+* Copy the content of the zip file to the `extensions` folder of your HiveMQ nodes.
 
-=== Configuration
+== Configuration
+No configuration is needed, the extension works out of the box.
 
-No configuration needed, works out of the box.
-
-=== First Steps
-After the extension is installed start HiveMQ. Now no client is allowed to subscribe to `#`, `+/#`, `$share/group/#`
+== First Steps
+After the extension is installed it is automatically enabled at startup. Now, no client is allowed to subscribe to `\#`, `+/#`, `$share/group/#`
 or any other topic filter that would represent a root wildcard.
 
-==== Need help?
-
+== Need Help?
 If you encounter any problems, we are happy to help. The best place to get in contact is our {hivemq-support}[support^].
 
-= Contributing
-
+== Contributing
 If you want to contribute to HiveMQ Deny Wildcard Extension, see the link:CONTRIBUTING.md[contribution guidelines].
 
-= License
-
-HiveMQ Deny Wildcard Extension is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found link:LICENSE.txt[here].
+== License
+HiveMQ Deny Wildcard Extension is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found link:LICENSE[here].
 
