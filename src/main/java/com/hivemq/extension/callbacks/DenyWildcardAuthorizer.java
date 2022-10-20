@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * DenyWildcard-Extension is a extension which denies a wildcard subscription
+ * DenyWildcard-Extension is an extension which denies a wildcard subscription
  * on top level for any Client. That means that you are not allowed to
  * subscribe for "#" only. Any sub level wildcard subscription like "/house/#"
  * is not affected and still possible.
@@ -41,18 +41,19 @@ import java.util.regex.Pattern;
  */
 public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
 
-    public static final DenyWildcardAuthorizer INSTANCE = new DenyWildcardAuthorizer();
-    public static final String REASON_STRING = "Root wildcard subscriptions are not supported.";
-    private static final Pattern SHARED_SUBSCRIPTION_PATTERN = Pattern.compile("\\$share(/.*?/(.*))");
+    public static final @NotNull DenyWildcardAuthorizer INSTANCE = new DenyWildcardAuthorizer();
+    static final @NotNull String REASON_STRING = "Root wildcard subscriptions are not supported.";
+    static final @NotNull String WILDCARD_CHARS = "#/+";
+    private static final @NotNull Pattern SHARED_SUBSCRIPTION_PATTERN = Pattern.compile("\\$share(/.*?/(.*))");
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(DenyWildcardAuthorizer.class);
 
     private DenyWildcardAuthorizer() {
     }
 
-    public static final String WILDCARD_CHARS = "#/+";
-    private static Logger logger = LoggerFactory.getLogger(DenyWildcardAuthorizer.class);
-
     @Override
-    public void authorizeSubscribe(@NotNull final SubscriptionAuthorizerInput subscriptionAuthorizerInput, @NotNull final SubscriptionAuthorizerOutput subscriptionAuthorizerOutput) {
+    public void authorizeSubscribe(
+            final @NotNull SubscriptionAuthorizerInput subscriptionAuthorizerInput,
+            final @NotNull SubscriptionAuthorizerOutput subscriptionAuthorizerOutput) {
         final String topicFilter = subscriptionAuthorizerInput.getSubscription().getTopicFilter();
 
         if (topicFilter.startsWith("$share/")) {
@@ -60,7 +61,9 @@ public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
             if (matcher.matches()) {
                 final String subscriptionTopic = matcher.group(2);
                 if (StringUtils.containsOnly(subscriptionTopic, WILDCARD_CHARS)) {
-                    logger.debug("Client {} tried to subscribe to an denied shared root wildcard topic filter '{}'", subscriptionAuthorizerInput.getClientInformation().getClientId(), topicFilter);
+                    LOG.debug("Client {} tried to subscribe to an denied shared root wildcard topic filter '{}'",
+                            subscriptionAuthorizerInput.getClientInformation().getClientId(),
+                            topicFilter);
                     subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
                     return;
                 }
@@ -84,7 +87,9 @@ public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
         }
 
         if (StringUtils.containsOnly(topicFilter, WILDCARD_CHARS)) {
-            logger.debug("Client {} tried to subscribe to an denied root wildcard topic filter '{}'", subscriptionAuthorizerInput.getClientInformation().getClientId(), topicFilter);
+            LOG.debug("Client {} tried to subscribe to an denied root wildcard topic filter '{}'",
+                    subscriptionAuthorizerInput.getClientInformation().getClientId(),
+                    topicFilter);
             subscriptionAuthorizerOutput.failAuthorization(SubackReasonCode.NOT_AUTHORIZED, REASON_STRING);
         } else {
             subscriptionAuthorizerOutput.authorizeSuccessfully();

@@ -16,6 +16,7 @@
 
 package com.hivemq.extension.callbacks;
 
+import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerInput;
 import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerOutput;
 import com.hivemq.extension.sdk.api.client.parameter.ClientInformation;
@@ -23,32 +24,25 @@ import com.hivemq.extension.sdk.api.packets.subscribe.SubackReasonCode;
 import com.hivemq.extension.sdk.api.packets.subscribe.Subscription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
  * @author Florian Limpoeck
  */
-public class DenyWildcardAuthorizerTest {
+class DenyWildcardAuthorizerTest {
 
-    @Mock
-    SubscriptionAuthorizerInput input;
-
-    @Mock
-    SubscriptionAuthorizerOutput output;
-
-    @Mock
-    ClientInformation clientInformation;
-
-    @Mock
-    Subscription subscription;
+    private @NotNull SubscriptionAuthorizerInput input;
+    private @NotNull SubscriptionAuthorizerOutput output;
 
     @BeforeEach
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        input = mock(SubscriptionAuthorizerInput.class);
+        output = mock(SubscriptionAuthorizerOutput.class);
+        final ClientInformation clientInformation = mock(ClientInformation.class);
+        final Subscription subscription = mock(Subscription.class);
         when(input.getClientInformation()).thenReturn(clientInformation);
         when(clientInformation.getClientId()).thenReturn("client");
         when(input.getSubscription()).thenReturn(subscription);
@@ -117,7 +111,6 @@ public class DenyWildcardAuthorizerTest {
 
         verify(output).failAuthorization(SubackReasonCode.NOT_AUTHORIZED, DenyWildcardAuthorizer.REASON_STRING);
     }
-
 
     @Test
     public void test_success() {
@@ -222,5 +215,4 @@ public class DenyWildcardAuthorizerTest {
 
         verify(output).authorizeSuccessfully();
     }
-
 }

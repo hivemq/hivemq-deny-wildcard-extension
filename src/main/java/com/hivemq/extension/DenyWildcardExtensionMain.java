@@ -16,6 +16,7 @@
 
 package com.hivemq.extension;
 
+import com.hivemq.extension.callbacks.DenyWildcardAuthorizer;
 import com.hivemq.extension.sdk.api.ExtensionMain;
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStartInput;
@@ -23,25 +24,28 @@ import com.hivemq.extension.sdk.api.parameter.ExtensionStartOutput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopInput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopOutput;
 import com.hivemq.extension.sdk.api.services.Services;
-import com.hivemq.extension.callbacks.DenyWildcardAuthorizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author Lukas Brandl
  */
+@SuppressWarnings("unused")
 public class DenyWildcardExtensionMain implements ExtensionMain {
 
-    private static final Logger log = LoggerFactory.getLogger(DenyWildcardExtensionMain.class);
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(DenyWildcardExtensionMain.class);
 
     @Override
-    public void extensionStart(@NotNull final ExtensionStartInput extensionStartInput, @NotNull final ExtensionStartOutput extensionStartOutput) {
-        log.info("Using the Deny Wildcard extension. Subscribing to '#' is prohibited.");
+    public void extensionStart(
+            final @NotNull ExtensionStartInput extensionStartInput,
+            final @NotNull ExtensionStartOutput extensionStartOutput) {
+        LOG.info("Using the Deny Wildcard extension. Subscribing to '#' is prohibited.");
         Services.securityRegistry().setAuthorizerProvider(authorizerProviderInput -> DenyWildcardAuthorizer.INSTANCE);
     }
 
     @Override
-    public void extensionStop(@NotNull final ExtensionStopInput extensionStopInput, @NotNull final ExtensionStopOutput extensionStopOutput) {
-
+    public void extensionStop(
+            final @NotNull ExtensionStopInput extensionStopInput,
+            final @NotNull ExtensionStopOutput extensionStopOutput) {
     }
 }
