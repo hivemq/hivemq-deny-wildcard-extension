@@ -1,5 +1,5 @@
 :hivemq-support: http://www.hivemq.com/support/
-:hivemq-extension-downloads: https://www.hivemq.com/extension/deny-root-wildcard-subscriptions-extension/
+:hivemq-extension-download: https://www.hivemq.com/extension/deny-root-wildcard-subscriptions-extension/
 
 = HiveMQ Deny Wildcard Subscription Extension
 
@@ -12,7 +12,7 @@ image:https://img.shields.io/github/workflow/status/hivemq/hivemq-deny-wildcard-
 This extension denies any subscription to the root wildcard topic. In general, root wildcard subscribers tend to be a bottleneck in many scenarios.
 
 == Installation
-* Download the extension from the {hivemq-extension-downloads}[HiveMQ Marketplace^].
+* Download the extension from the {hivemq-extension-download}[HiveMQ Marketplace^].
 * Copy the content of the zip file to the `extensions` folder of your HiveMQ nodes.
 
 == Configuration
