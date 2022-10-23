@@ -1,7 +1,7 @@
 :hivemq-support: http://www.hivemq.com/support/
 :hivemq-extension-download: https://www.hivemq.com/extension/deny-root-wildcard-subscriptions-extension/
 
-= HiveMQ Deny Wildcard Subscription Extension
+= HiveMQ Deny Root Wildcard Subscription Extension
 
 image:https://img.shields.io/badge/Extension_Type-Security-orange?style=for-the-badge[Extension Type]
 image:https://img.shields.io/github/v/release/hivemq/hivemq-deny-wildcard-extension?style=for-the-badge[GitHub release (latest by date),link=https://github.com/hivemq/hivemq-deny-wildcard-extension/releases/latest]
