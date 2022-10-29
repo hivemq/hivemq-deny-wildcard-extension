@@ -10,7 +10,8 @@ image:https://img.shields.io/github/workflow/status/hivemq/hivemq-deny-wildcard-
 
 == Purpose
 
-This extension denies any subscription to the root wildcard topic. In general, root wildcard subscribers tend to be a bottleneck in many scenarios.
+This extension denies any subscription to the root wildcard topic.
+In general, root wildcard subscribers tend to be a bottleneck in many scenarios.
 
 == Installation
 
@@ -28,7 +29,8 @@ Now, no client is allowed to subscribe to `\#`, `+/#`, `$share/group/#` or any o
 
 == Need Help?
 
-If you encounter any problems, we are happy to help. The best place to get in contact is our {hivemq-support}[support^].
+If you encounter any problems, we are happy to help.
+The best place to get in contact is our {hivemq-support}[support^].
 
 == Contributing
 
@@ -38,4 +40,3 @@ If you want to contribute to HiveMQ Deny Wildcard Extension, see the link:CONTRI
 
 HiveMQ Deny Wildcard Extension is licensed under the `APACHE LICENSE, VERSION 2.0`.
 A copy of the license can be found link:LICENSE[here].
-
