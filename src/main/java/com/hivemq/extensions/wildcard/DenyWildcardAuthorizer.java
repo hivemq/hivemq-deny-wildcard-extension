@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hivemq.extensions.wildcard.callbacks;
+package com.hivemq.extensions.wildcard;
 
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.auth.SubscriptionAuthorizer;
@@ -37,11 +37,11 @@ import java.util.regex.Pattern;
  * @author Florian Limpoeck
  * @author Lukas Brandl
  */
-public class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
+class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
 
-    public static final @NotNull DenyWildcardAuthorizer INSTANCE = new DenyWildcardAuthorizer();
+    static final @NotNull DenyWildcardAuthorizer INSTANCE = new DenyWildcardAuthorizer();
     static final @NotNull String REASON_STRING = "Root wildcard subscriptions are not supported.";
-    static final @NotNull String WILDCARD_CHARS = "#/+";
+    private static final @NotNull String WILDCARD_CHARS = "#/+";
     private static final @NotNull Pattern SHARED_SUBSCRIPTION_PATTERN = Pattern.compile("\\$share(/.*?/(.*))");
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(DenyWildcardAuthorizer.class);
 
