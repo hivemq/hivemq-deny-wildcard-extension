@@ -22,7 +22,6 @@ import com.hivemq.extension.sdk.api.parameter.ExtensionStartOutput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopInput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopOutput;
 import com.hivemq.extension.sdk.api.services.Services;
-import com.hivemq.extensions.wildcard.callbacks.DenyWildcardAuthorizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
