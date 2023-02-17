@@ -6,7 +6,7 @@
 image:https://img.shields.io/badge/Extension_Type-Security-orange?style=for-the-badge[Extension Type]
 image:https://img.shields.io/github/v/release/hivemq/hivemq-deny-wildcard-extension?style=for-the-badge[GitHub release (latest by date),link=https://github.com/hivemq/hivemq-deny-wildcard-extension/releases/latest]
 image:https://img.shields.io/github/license/hivemq/hivemq-deny-wildcard-extension?style=for-the-badge&color=brightgreen[GitHub,link=LICENSE]
-image:https://img.shields.io/github/workflow/status/hivemq/hivemq-deny-wildcard-extension/CI%20Check/master?style=for-the-badge[GitHub Workflow Status (branch),link=https://github.com/hivemq/hivemq-deny-wildcard-extension/actions/workflows/check.yml?query=branch%3Amaster]
+image:https://img.shields.io/github/actions/workflow/status/hivemq/hivemq-deny-wildcard-extension/check.yml?branch=master&style=for-the-badge[GitHub Workflow Status,link=https://github.com/hivemq/hivemq-deny-wildcard-extension/actions/workflows/check.yml?query=branch%3Amaster]
 
 == Purpose
 
