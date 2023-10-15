@@ -50,9 +50,3 @@ license {
     header = rootDir.resolve("HEADER")
     mapping("java", "SLASHSTAR_STYLE")
 }
-
-/* ******************** run ******************** */
-
-tasks.prepareHivemqHome {
-    hivemqHomeDirectory.set(file("/path/to/a/hivemq/folder"))
-}
