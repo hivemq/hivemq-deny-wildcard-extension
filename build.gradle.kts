@@ -1,8 +1,8 @@
 plugins {
-    id("com.hivemq.extension")
-    id("com.github.hierynomus.license")
-    id("io.github.sgtsilvio.gradle.defaults")
-    id("org.asciidoctor.jvm.convert")
+    alias(libs.plugins.hivemq.extension)
+    alias(libs.plugins.defaults)
+    alias(libs.plugins.license)
+    alias(libs.plugins.asciidoctor)
 }
 
 group = "com.hivemq.extensions"
@@ -13,7 +13,7 @@ hivemqExtension {
     author.set("HiveMQ")
     priority.set(1000)
     startPriority.set(1000)
-    sdkVersion.set("${property("hivemq-extension-sdk.version")}")
+    sdkVersion.set(libs.versions.hivemq.extensionSdk)
 
     resources {
         from("LICENSE")
@@ -23,7 +23,7 @@ hivemqExtension {
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-lang3:${property("commons-lang.version")}")
+    implementation(libs.commonsLang)
 }
 
 tasks.asciidoctor {
@@ -35,8 +35,8 @@ tasks.asciidoctor {
 /* ******************** test ******************** */
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:${property("junit-jupiter.version")}")
-    testImplementation("org.mockito:mockito-core:${property("mockito.version")}")
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito)
 }
 
 tasks.withType<Test>().configureEach {
