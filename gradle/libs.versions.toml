@@ -6,7 +6,6 @@ mockito = "4.8.0"
 
 [libraries]
 commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 
 [plugins]
