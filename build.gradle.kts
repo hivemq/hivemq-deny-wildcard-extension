@@ -8,11 +8,11 @@ group = "com.hivemq.extensions"
 description = "HiveMQ Extension to deny top level wildcard subscription"
 
 hivemqExtension {
-    name.set("Deny Wildcard Extension")
-    author.set("HiveMQ")
-    priority.set(1000)
-    startPriority.set(1000)
-    sdkVersion.set(libs.versions.hivemq.extensionSdk)
+    name = "Deny Wildcard Extension"
+    author = "HiveMQ"
+    priority = 1000
+    startPriority = 1000
+    sdkVersion = libs.versions.hivemq.extensionSdk
 
     resources {
         from("LICENSE")
