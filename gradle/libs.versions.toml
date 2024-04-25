@@ -1,11 +1,13 @@
 [versions]
 commonsLang = "3.14.0"
 hivemq-extensionSdk = "4.1.0"
+jetbrains-annotations = "24.1.0"
 junit-jupiter = "5.10.0"
 mockito = "5.11.0"
 
 [libraries]
 commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 
 [plugins]
