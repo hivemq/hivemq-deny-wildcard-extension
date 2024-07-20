@@ -1,5 +1,5 @@
 [versions]
-commonsLang = "3.14.0"
+commonsLang = "3.15.0"
 hivemq-extensionSdk = "4.1.0"
 jetbrains-annotations = "24.1.0"
 junit-jupiter = "5.10.0"
