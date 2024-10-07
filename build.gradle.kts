@@ -21,7 +21,6 @@ hivemqExtension {
 
 dependencies {
     compileOnly(libs.jetbrains.annotations)
-
     implementation(libs.commonsLang)
 }
 
