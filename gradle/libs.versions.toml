@@ -3,7 +3,7 @@ commonsLang = "3.17.0"
 hivemq-extensionSdk = "4.1.0"
 jetbrains-annotations = "26.0.2"
 junit-jupiter = "5.10.0"
-mockito = "5.16.1"
+mockito = "5.17.0"
 
 [libraries]
 commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
