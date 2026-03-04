@@ -28,11 +28,9 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 /**
- * DenyWildcard-Extension is an extension which denies a wildcard subscription
- * on top level for any Client. That means that you are not allowed to
- * subscribe for "#" only. Any sub level wildcard subscription like "/house/#"
- * is not affected and still possible.
- * Your Client disconnects after subscription on top level wildcard.
+ * DenyWildcard-Extension is an extension which denies a wildcard subscription on top level for any Client. That means
+ * that you are not allowed to subscribe for "#" only. Any sub level wildcard subscription like "/house/#" is not
+ * affected and still possible. Your Client disconnects after subscription on top level wildcard.
  *
  * @author Florian Limpoeck
  * @author Lukas Brandl
