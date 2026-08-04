@@ -93,6 +93,7 @@ testing {
             dependencies {
                 compileOnly(libs.jetbrains.annotations)
                 implementation(libs.mockito)
+                implementation(libs.logback.classic)
             }
         }
     }
