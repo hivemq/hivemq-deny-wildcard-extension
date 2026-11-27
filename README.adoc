@@ -22,10 +22,24 @@ In general, root wildcard subscribers tend to be a bottleneck in many scenarios.
 
 No configuration is needed, the extension works out of the box.
 
+Optionally, specific clients can be allowed to subscribe to root wildcards.
+List their client identifiers, comma-separated, in `conf/config.properties` inside the extension folder:
+
+[source,properties]
+----
+allowed-client-ids=client-a,client-b
+----
+
+The file is read once at startup.
+Without the file, or with an empty list, no client is allowed.
+
+NOTE: A client identifier is not a credential.
+On a broker that accepts unauthenticated clients, anyone who knows an allowed client identifier can connect with it and subscribe to a root wildcard.
+
 == First Steps
 
 After the extension is installed, it is automatically enabled at startup.
-Now, no client is allowed to subscribe to `\#`, `+/#`, `$share/group/#` or any other topic filter that would represent a root wildcard.
+Now, no client outside the allow list is allowed to subscribe to `\#`, `+/#`, `$share/group/#` or any other topic filter that would represent a root wildcard.
 
 == Need Help?
 

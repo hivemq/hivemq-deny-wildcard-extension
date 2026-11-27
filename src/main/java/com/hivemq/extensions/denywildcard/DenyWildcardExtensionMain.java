@@ -26,6 +26,9 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.Set;
+
 /**
  * @author Lukas Brandl
  */
@@ -38,8 +41,19 @@ public class DenyWildcardExtensionMain implements ExtensionMain {
     public void extensionStart(
             final @NotNull ExtensionStartInput extensionStartInput,
             final @NotNull ExtensionStartOutput extensionStartOutput) {
-        LOG.info("Using the Deny Wildcard extension. Subscribing to '#' is prohibited.");
-        Services.securityRegistry().setAuthorizerProvider(authorizerProviderInput -> DenyWildcardAuthorizer.INSTANCE);
+        final Set<String> allowedClientIds;
+        try {
+            allowedClientIds = DenyWildcardConfig.readAllowedClientIds(
+                    extensionStartInput.getExtensionInformation().getExtensionHomeFolder().toPath());
+        } catch (final IOException e) {
+            LOG.error("Could not read {} of the Deny Wildcard extension.", DenyWildcardConfig.CONFIG_FILE, e);
+            extensionStartOutput.preventExtensionStartup("Could not read " + DenyWildcardConfig.CONFIG_FILE);
+            return;
+        }
+        LOG.info("Using the Deny Wildcard extension. Subscribing to '#' is prohibited for all but {} allowed clients.",
+                allowedClientIds.size());
+        final var authorizer = new DenyWildcardAuthorizer(allowedClientIds);
+        Services.securityRegistry().setAuthorizerProvider(authorizerProviderInput -> authorizer);
     }
 
     @Override

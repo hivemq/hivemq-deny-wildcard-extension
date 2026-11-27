@@ -25,19 +25,21 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
  * DenyWildcard-Extension is an extension which denies a wildcard subscription on top level for any Client. That means
  * that you are not allowed to subscribe for "#" only. Any sub level wildcard subscription like "/house/#" is not
  * affected and still possible. Your Client disconnects after subscription on top level wildcard.
+ * <p>
+ * Clients whose identifier is in the allow list may subscribe to any topic filter.
  *
  * @author Florian Limpoeck
  * @author Lukas Brandl
  */
 class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
 
-    static final @NotNull DenyWildcardAuthorizer INSTANCE = new DenyWildcardAuthorizer();
     static final @NotNull String REASON_STRING = "Root wildcard subscriptions are not supported.";
 
     private static final @NotNull String WILDCARD_CHARS = "#/+";
@@ -45,13 +47,20 @@ class DenyWildcardAuthorizer implements SubscriptionAuthorizer {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(DenyWildcardAuthorizer.class);
 
-    private DenyWildcardAuthorizer() {
+    private final @NotNull Set<String> allowedClientIds;
+
+    DenyWildcardAuthorizer(final @NotNull Set<String> allowedClientIds) {
+        this.allowedClientIds = Set.copyOf(allowedClientIds);
     }
 
     @Override
     public void authorizeSubscribe(
             final @NotNull SubscriptionAuthorizerInput subscriptionAuthorizerInput,
             final @NotNull SubscriptionAuthorizerOutput subscriptionAuthorizerOutput) {
+        if (allowedClientIds.contains(subscriptionAuthorizerInput.getClientInformation().getClientId())) {
+            subscriptionAuthorizerOutput.authorizeSuccessfully();
+            return;
+        }
         final var topicFilter = subscriptionAuthorizerInput.getSubscription().getTopicFilter();
         if (topicFilter.startsWith("$share/")) {
             final var matcher = SHARED_SUBSCRIPTION_PATTERN.matcher(topicFilter);
