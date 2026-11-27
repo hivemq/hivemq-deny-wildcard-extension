@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static com.hivemq.extension.sdk.api.packets.subscribe.SubackReasonCode.NOT_AUTHORIZED;
 import static com.hivemq.extensions.denywildcard.DenyWildcardAuthorizer.REASON_STRING;
 import static org.mockito.Mockito.mock;
@@ -37,6 +39,7 @@ class DenyWildcardAuthorizerTest {
 
     private final @NotNull SubscriptionAuthorizerInput input = mock();
     private final @NotNull SubscriptionAuthorizerOutput output = mock();
+    private final @NotNull DenyWildcardAuthorizer authorizer = new DenyWildcardAuthorizer(Set.of("allowed-client"));
 
     @BeforeEach
     void setUp() {
@@ -50,7 +53,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_hashtag() {
         when(input.getSubscription().getTopicFilter()).thenReturn("#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -58,7 +61,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_shared_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$share/group/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -66,7 +69,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -74,7 +77,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_shared_slash_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$share/group//#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -82,7 +85,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_plus_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("+/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -90,7 +93,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_shared_plus_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$share/group/+/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -98,7 +101,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_plus_plus() {
         when(input.getSubscription().getTopicFilter()).thenReturn("+/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -106,7 +109,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_shared_plus_plus() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$share/group/+/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -114,7 +117,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success() {
         when(input.getSubscription().getTopicFilter()).thenReturn("topic");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -122,7 +125,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success_non_root_hashtag() {
         when(input.getSubscription().getTopicFilter()).thenReturn("topic/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -130,7 +133,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success_shared_non_root_wildcard() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$share/group/topic/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -138,7 +141,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success_non_root_plus_wildcard() {
         when(input.getSubscription().getTopicFilter()).thenReturn("+/topic/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -146,7 +149,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success_shared_non_root_plus_wildcard() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$share/group/+/topic/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -154,7 +157,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success_non_root_plus() {
         when(input.getSubscription().getTopicFilter()).thenReturn("topic/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -162,7 +165,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_success_non_trailing_plus() {
         when(input.getSubscription().getTopicFilter()).thenReturn("+/topic");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -170,7 +173,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_expired_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$expired/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -178,7 +181,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_expired_plus_plus() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$expired/+/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -186,7 +189,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_expired_success() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$expired/topic/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
     }
@@ -194,7 +197,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_dropped_hash() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$dropped/#");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -202,7 +205,7 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_dropped_plus_plus() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$dropped/+/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
@@ -210,8 +213,35 @@ class DenyWildcardAuthorizerTest {
     @Test
     void test_denied_dropped_success() {
         when(input.getSubscription().getTopicFilter()).thenReturn("$dropped/topic/+");
-        DenyWildcardAuthorizer.INSTANCE.authorizeSubscribe(input, output);
+        authorizer.authorizeSubscribe(input, output);
 
         verify(output).authorizeSuccessfully();
+    }
+
+    @Test
+    void test_allowed_client_hashtag() {
+        when(input.getClientInformation().getClientId()).thenReturn("allowed-client");
+        when(input.getSubscription().getTopicFilter()).thenReturn("#");
+        authorizer.authorizeSubscribe(input, output);
+
+        verify(output).authorizeSuccessfully();
+    }
+
+    @Test
+    void test_allowed_client_shared_hash() {
+        when(input.getClientInformation().getClientId()).thenReturn("allowed-client");
+        when(input.getSubscription().getTopicFilter()).thenReturn("$share/group/#");
+        authorizer.authorizeSubscribe(input, output);
+
+        verify(output).authorizeSuccessfully();
+    }
+
+    @Test
+    void test_denied_client_id_prefix_of_allowed() {
+        when(input.getClientInformation().getClientId()).thenReturn("allowed");
+        when(input.getSubscription().getTopicFilter()).thenReturn("#");
+        authorizer.authorizeSubscribe(input, output);
+
+        verify(output).failAuthorization(NOT_AUTHORIZED, REASON_STRING);
     }
 }
